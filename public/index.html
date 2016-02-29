@@ -1,65 +1,49 @@
-<h2>Facebook Hubspot</h2>
-<h3>Connector setup</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connector setup | Facebook Hubspot</title>
 
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '172831193073690',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
-
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
-
-  function subscribeApp (pageId, accessToken) {
-    console.log('Subscring to the app', pageId);
-
-    FB.api(
-      '/' + pageId + '/subscribed_apps',
-      'post',
-      { access_token: accessToken },
-      function (res) {
-        console.log('Subscribed... ', res);
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+</head>
+<body ng-app="fb-hs">
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '172831193073690',
+        xfbml      : true,
+        version    : 'v2.5'
       });
-  }
+    };
 
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
 
-  // Only works after `FB.init` is called
-  function myFacebookLogin() {
-    FB.login(function (res) {
-      console.log('Login OK', res);
+  <div class="container" ng-controller="MainCtrl">
+    <h2>Facebook Hubspot</h2>
+    <h3>Connector setup</h3>
+    <br><br>
 
-      FB.api('/me/accounts', function (res) {
-        console.log('Pages', res);
+    <button class="btn btn-primary" ng-show="!login" ng-click="fbLogin()">Login with Facebook</button>
 
-        var ul = document.getElementById('list');
-        for (var i = 0, l = res.data.length; i<l; i++) {
-          var page = res.data[i];
+    <p ng-show="pages.data">Click on a page name to make the app subscribe the events from that page</p>
+    <ul>
+      <li ng-repeat="item in pages.data">
+        <a href="" ng-click="subscribe(item)">{{ item.name }}</a>
+      </li>
+    </ul>
+  </div>
 
-          var a = document.createElement('a');
-          a.href = '#';
-          a.innerHTML = page.name;
-          a.onclick = subscribeApp.bind(this, page.id, page.access_token);
-
-          var li = document.createElement('li');
-          li.appendChild(a);
-          ul.appendChild(li);
-        }
-
-      });
-
-    }, {scope: 'manage_pages'});
-  }
-</script>
-
-<button onclick="myFacebookLogin()">Login with Facebook</button>
-<ul id="list"></ul>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
