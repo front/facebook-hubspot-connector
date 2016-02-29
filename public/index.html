@@ -41,6 +41,12 @@
         <a href="" ng-click="subscribe(item)">{{ item.name }}</a>
       </li>
     </ul>
+    <br><br>
+
+    <div ng-show="token" style="word-break: break-word;">
+      <h3>Your access token is:</h3>
+      {{ token }}
+    </div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
