@@ -1,0 +1,65 @@
+<h2>Facebook Hubspot</h2>
+<h3>Connector setup</h3>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '172831193073690',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+  function subscribeApp (pageId, accessToken) {
+    console.log('Subscring to the app', pageId);
+
+    FB.api(
+      '/' + pageId + '/subscribed_apps',
+      'post',
+      { access_token: accessToken },
+      function (res) {
+        console.log('Subscribed... ', res);
+      });
+  }
+
+
+  // Only works after `FB.init` is called
+  function myFacebookLogin() {
+    FB.login(function (res) {
+      console.log('Login OK', res);
+
+      FB.api('/me/accounts', function (res) {
+        console.log('Pages', res);
+
+        var ul = document.getElementById('list');
+        for (var i = 0, l = res.data.length; i<l; i++) {
+          var page = res.data[i];
+
+          var a = document.createElement('a');
+          a.href = '#';
+          a.innerHTML = page.name;
+          a.onclick = subscribeApp.bind(this, page.id, page.access_token);
+
+          var li = document.createElement('li');
+          li.appendChild(a);
+          ul.appendChild(li);
+        }
+
+      });
+
+    }, {scope: 'manage_pages'});
+  }
+</script>
+
+<button onclick="myFacebookLogin()">Login with Facebook</button>
+<ul id="list"></ul>

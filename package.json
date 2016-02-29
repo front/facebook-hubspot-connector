@@ -1,0 +1,15 @@
+{
+  "name": "facebook-hubspot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Frontkom",
+  "dependencies": {
+    "fb": "^1.0.2",
+    "hapi": "^13.0.0",
+    "inert": "^3.2.0"
+  }
+}
