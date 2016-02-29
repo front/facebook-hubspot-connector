@@ -1,6 +1,5 @@
 'use strict';
 
-
 const Hapi = require('hapi');
 const handler = require('./handler');
 
@@ -42,13 +41,13 @@ server.register([
     {
       method: '*',
       path: '/facebook',
-      handler: handler.lead
+      handler: handler.fbRequest
     }
   ]);
 
 
   server.start(() => {
-    console.log('Facebook Leads POC:', 'Started on ' + server.info.port);
+    console.log('Facebook Hubspot Connector:', 'Started on ' + server.info.port);
   });
 
 });
