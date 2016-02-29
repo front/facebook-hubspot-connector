@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('fb-hs', [])
 .controller('MainCtrl', function ($scope, $timeout) {
@@ -36,9 +37,12 @@ angular.module('fb-hs', [])
       },
       function (res) {
         console.log('Subscribed... ', res);
-        window.alert('Success. Check console for more info.')
-        $scope.token = page.access_token;
+        window.alert('Success. Check console for more info.');
+
+        $timeout(function () {
+          $scope.token = page.access_token;
+        });
       }
     );
-  }
+  };
 });

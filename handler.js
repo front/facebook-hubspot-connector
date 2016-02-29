@@ -26,7 +26,6 @@ function getLeadInfo (id) {
     for(let prop of res.field_data) {
       user[prop.name] = prop.values[0];
     }
-    return console.log(user);
 
     let parts = user.full_name.split(' ');
     let last = parts.splice(-1).toString();
