@@ -9,8 +9,9 @@
   "author": "Frontkom",
   "dependencies": {
     "fb": "^1.0.2",
+    "handlebars": "^4.0.5",
     "hapi": "^13.0.0",
-    "inert": "^3.2.0",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "vision": "^4.0.1"
   }
 }

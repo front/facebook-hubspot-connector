@@ -4,6 +4,12 @@ const Hapi = require('hapi');
 const handler = require('./handler');
 
 
+const appId = process.env.APP_ID;
+if(!appId) {
+  console.log('Env vars not set!');
+  process.exit(0);
+}
+
 const server = new Hapi.Server();
 server.connection({
   port: process.env.PORT || 5000,
@@ -14,11 +20,18 @@ server.connection({
 
 
 server.register([
-  require('inert')
+  require('vision')
 ], function (err) {
   if(err) {
     return console.log('Hapi: Error loading plugins');
   }
+
+  server.views({
+    engines: {
+      html: require('handlebars')
+    },
+    path: './www'
+  });
 
   server.route([
     {
@@ -27,27 +40,25 @@ server.register([
       handler (request, reply) {
         reply('Facebook Hubspot Connector');
       }
-    },
-    {
+    }, {
       method: 'GET',
-      path: '/setup/{something*}',
+      path: '/setup',
       handler: {
-        directory: {
-          path: 'public',
-          index: true
+        view: {
+          template: 'index',
+          context: {
+            appId
+          }
         }
       }
-    },
-    {
+    }, {
       method: '*',
       path: '/facebook',
       handler: handler.fbRequest
     }
   ]);
 
-
   server.start(() => {
     console.log('Facebook Hubspot Connector:', 'Started on ' + server.info.port);
   });
-
 });
