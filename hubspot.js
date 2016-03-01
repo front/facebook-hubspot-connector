@@ -7,8 +7,7 @@ const apiKey = process.env.HS_KEY;
 const listId = process.env.HS_LIST;
 
 if(!apiKey || !listId) {
-  console.log('Env vars not set!');
-  process.exit(0);
+  return console.log('Hubspot vars not set!');
 }
 
 

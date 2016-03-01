@@ -1,13 +1,12 @@
 'use strict';
 
 const Hapi = require('hapi');
-const handler = require('./handler');
-
+const facebook = require('./facebook');
 
 const appId = process.env.APP_ID;
+
 if(!appId) {
-  console.log('Env vars not set!');
-  process.exit(0);
+  return console.log('AppId var not set!');
 }
 
 const server = new Hapi.Server();
@@ -17,7 +16,6 @@ server.connection({
     cors: true
   }
 });
-
 
 server.register([
   require('vision')
@@ -33,30 +31,34 @@ server.register([
     path: './www'
   });
 
-  server.route([
-    {
-      method: '*',
-      path: '/',
-      handler (request, reply) {
-        reply('Facebook Hubspot Connector');
-      }
-    }, {
-      method: 'GET',
-      path: '/setup',
-      handler: {
-        view: {
-          template: 'index',
-          context: {
-            appId
-          }
+  server.route({
+    method: '*',
+    path: '/',
+    handler (request, reply) {
+      reply('Facebook Hubspot Connector');
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/setup',
+    handler: {
+      view: {
+        template: 'index',
+        context: {
+          appId
         }
       }
-    }, {
+    }
+  });
+
+  if(facebook.handler) {
+    server.route({
       method: '*',
       path: '/facebook',
-      handler: handler.fbRequest
-    }
-  ]);
+      handler: facebook.handler
+    });
+  }
 
   server.start(() => {
     console.log('Facebook Hubspot Connector:', 'Started on ' + server.info.port);

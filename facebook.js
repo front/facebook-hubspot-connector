@@ -3,19 +3,18 @@
 const FB = require('fb');
 const hubspot = require('./hubspot');
 
-const access_token = process.env.PAGE_TOKEN;
-const verify_token = process.env.FB_VERIFY;
+const pageToken = process.env.PAGE_TOKEN;
+const verifyToken = process.env.FB_VERIFY;
 
-if(!access_token || !verify_token) {
-  console.log('Env vars not set!');
-  process.exit(0);
+if(!pageToken || !verifyToken) {
+  return console.log('Facebook vars not set!');
 }
 
 
 function getLeadInfo (id) {
   FB.api(id,
   {
-    access_token: access_token
+    access_token: pageToken
   },
   function (res) {
     if(res.error) {
@@ -52,13 +51,13 @@ function extractLeadData (data) {
 }
 
 
-function fbRequest (request, reply) {
+function handler (request, reply) {
   let qs = request.query;
 
   let challenge  = qs['hub.challenge'];
   let token = qs['hub.verify_token'];
 
-  reply(token === verify_token && challenge || 'FB');
+  reply(token === verifyToken && challenge || 'FB');
 
   process.nextTick(() => {
     extractLeadData(request.payload);
@@ -67,5 +66,5 @@ function fbRequest (request, reply) {
 
 
 module.exports = {
-  fbRequest
+  handler
 };
