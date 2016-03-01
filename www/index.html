@@ -42,8 +42,11 @@
     <br><br>
 
     <div ng-show="token" style="word-break: break-word;">
+      <h3>Page id is:</h3>
+      <p>[[ pageId ]]</p>
+
       <h3>Your access token is:</h3>
-      [[ token ]]
+      <p>[[ token ]]</p>
     </div>
   </div>
 
@@ -92,6 +95,7 @@
             window.alert('Success. Check console for more info.');
 
             $timeout(function () {
+              $scope.pageId = page.id;
               $scope.token = page.access_token;
             });
           }
