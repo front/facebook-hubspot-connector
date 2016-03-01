@@ -26,6 +26,7 @@ This Facebook app will be used to subscribe to the events from the Facebook page
 
 Setup the **app domain** and **website** as "localhost". Take note of the App Id.
 
+
 ### 2. Clone this repo and install the packages
 
 Start by cloning the repo and installing the npm packages.
@@ -88,8 +89,8 @@ $ APP_ID='172XXXXXXXX' PAGE_TOKEN='<your-fb-page-token>' FB_VERIFY='abc123' HS_K
 
 > If any parameter is missing. The console will show a message saying "**[Module] vars not set!**". Just check the parameter names and try again.
 
-
 Now we're ready to setup the webhook on the Facebook app.
+
 
 ### 6. Facebook webhook setup
 
@@ -103,7 +104,6 @@ Facebook will now make a request to our app and confirm the subscription.
 
 
 ### 7. Confirming the setup on Graph API Explorer
-
 
 We can check if everything is setup correctly by using Facebook's **Graph API Explorer**. So, go to: [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/)
 
@@ -122,13 +122,18 @@ You can also check if the webhook is setup correctly. For that, choose your appl
 This should show this node app as the subscribed webhook.
 
 
-### 8. Maintenance
+### 8. Checking the data on Hubspot
 
-Everything should be setup correctly. It's now just a matter of making a few tests. If more fields are needed on Hubspot, you can change the parsing on the "**facebook.js**" file, **getLeadInfo()** method.
+So, whenever an ad form is submitted on Facebook, the contact is added to Hubspot list. It usually takes some minutes for the whole process to complete. So don't freak out if you don't see results right away.
+
+![Hubspot List](./docs/img-0.png?raw=true)
+
+
+### 9. Maintenance
+
+Everything should be setup correctly at this point. It's now just a matter of making a few tests. If more fields are needed on Hubspot, you can change the parsing on the "**facebook.js**" file, **getLeadInfo()** method. However those fields need to be available to the Facebook Ad form first.
 
 The only thing required now is to update the Page Access Token every 2 months. That usually means running steps 3 through 5.
-
-
 
 ## License
 
